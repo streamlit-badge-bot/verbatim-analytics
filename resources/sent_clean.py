@@ -6,6 +6,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
 import json
 import string
+import requests
 
 #Functions
 lemmatizer = WordNetLemmatizer()
