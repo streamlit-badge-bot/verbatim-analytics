@@ -129,7 +129,7 @@ def word_viewer(data, words, content_col):
 	st.markdown(get_table_download_link(df_viewed), unsafe_allow_html=True)
 	return st.table(df_viewed)
 
-def get_table_download_link(df):
+def get_table_download_link(df, text='Click here to download table'):
     """Generates a link allowing the data in a given panda dataframe to be downloaded
     in:  dataframe
     out: href string
@@ -137,7 +137,7 @@ def get_table_download_link(df):
     csv = df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
     # href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
-    href = f'<a href="data:file/csv;base64,{b64}" download="table.csv">Click here to download table</a>'
+    href = f'<a href="data:file/csv;base64,{b64}" download="table.csv">{text}</a>'
     return href
 
 def load_topwords_page(data):
@@ -187,7 +187,7 @@ def load_topwords_page(data):
         #Unigram
             uni_df = load_topwords(data, ngram=(1,1))
             one_word = st.multiselect("Select words to remove: ", options=(uni_df["word"].values))
-            st.markdown("- Unigram (one-word)")
+	    st.markdown(get_table_download_link(uni_df, text='- Unigram (one-word)'), unsafe_allow_html=True)
             if len(one_word)>0:
                 mask = uni_df['word'].isin(one_word)
                 new_uni_df = uni_df[~mask]
@@ -197,7 +197,7 @@ def load_topwords_page(data):
         #Bigram
             bi_df = load_topwords(data, ngram=(2,2))
             two_word = st.multiselect("Select words to remove: ", options=(bi_df["word"].values))
-            st.markdown("- Bigram (two-word)")
+	    st.markdown(get_table_download_link(uni_df, text='- Bigram (two-word)'), unsafe_allow_html=True)
             if len(two_word)>0:
                 mask = bi_df['word'].isin(two_word)
                 new_bi_df = bi_df[~mask]
@@ -207,7 +207,7 @@ def load_topwords_page(data):
         #Trigram
             tri_df = load_topwords(data, ngram=(3,3))
             three_word = st.multiselect("Select words to remove: ", options=(tri_df["word"].values))
-            st.markdown("- Trigram (three-word)")
+	    st.markdown(get_table_download_link(uni_df, text='- Trigram (three-word)'), unsafe_allow_html=True)
             if len(three_word)>0:
                 mask = tri_df['word'].isin(three_word)
                 new_tri_df = tri_df[~mask]
