@@ -14,6 +14,7 @@ import json
 from nltk.corpus import wordnet
 import base64
 import SessionState
+import requests
 
 @st.cache(suppress_st_warning=True, persist=True, show_spinner=False, allow_output_mutation=True)
 def process_data(data, content_col):
@@ -28,12 +29,14 @@ lemmatizer = WordNetLemmatizer()
 #All stopwords
 STOPWORDS = set(stopwords.words('english'))
 engtl_stop_words = []
-for words in open(r'./resources/English-Tagalog Stopwords.txt', 'r'):
+url = 'https://raw.githubusercontent.com/kcapalar/verbatim-analytics/main/resources/English-Tagalog%20Stopwords.txt'
+page = requests.get(url)
+for words in page.text.splitlines():
     engtl_stop_words.append(words.strip().lower())
 
-with open(r'./resources/shortcuts_dict.txt', 'r') as s:
-    data = s.read()
-shortcut = json.loads(data)
+url1 = 'https://raw.githubusercontent.com/kcapalar/verbatim-analytics/main/resources/shortcuts_dict.txt'
+r = requests.get(url1)
+shortcut = r.json()
 
 
 def substitutions(text):
