@@ -197,7 +197,7 @@ def load_topwords_page(data):
         #Bigram
             bi_df = load_topwords(data, ngram=(2,2))
             two_word = st.multiselect("Select words to remove: ", options=(bi_df["word"].values))
-            st.markdown(get_table_download_link(uni_df, text='- Bigram (two-word)'), unsafe_allow_html=True)
+            st.markdown(get_table_download_link(bi_df, text='- Bigram (two-word)'), unsafe_allow_html=True)
             if len(two_word)>0:
                 mask = bi_df['word'].isin(two_word)
                 new_bi_df = bi_df[~mask]
@@ -207,7 +207,7 @@ def load_topwords_page(data):
         #Trigram
             tri_df = load_topwords(data, ngram=(3,3))
             three_word = st.multiselect("Select words to remove: ", options=(tri_df["word"].values))
-            st.markdown(get_table_download_link(uni_df, text='- Trigram (three-word)'), unsafe_allow_html=True)
+            st.markdown(get_table_download_link(tri_df, text='- Trigram (three-word)'), unsafe_allow_html=True)
             if len(three_word)>0:
                 mask = tri_df['word'].isin(three_word)
                 new_tri_df = tri_df[~mask]
